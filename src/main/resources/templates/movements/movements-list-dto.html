@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title> Financeq - Movements </title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+<main>
+    <div class="container">
+        <header>
+            <div class="title">
+                <h1> Movements List </h1>
+            </div>
+        </header>
+        <hr/>
+
+        <div class="add-movement">
+            <a th:href="@{/movements/new}" class="btn btn-primary"> New Movement </a>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Category</th>
+                <th scope="col">Status</th>
+                <th scope="col">Date</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody class="table-group-divider">
+            <tr scope="col" th:each="move : ${movements}">
+                <td th:text="${move.title}" />
+                <td th:text="${move.amount}" />
+                <td th:text="${move.category}" />
+                <td th:text="${move.status}" />
+                <td th:text="${#dates.format(move.movementDate, 'dd/MM/yyyy')}" />
+                <td>
+                    <a th:href="@{/movements/update/{movementId}(movementId=${move.movementId})}" class="btn btn-info btn-sm"> Update </a>
+                    <a th:href="@{/movements/delete/{movementId}(movementId=${move.movementId})}"
+                       class="btn btn-danger btn-sm"
+                       onclick="if (!(confirm('Are you sure you want to delete this movement?'))) return false" >
+                        Delete
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+
+        </table>
+        <div class="btn-home">
+            <a th:href="@{/}" class="btn btn-primary"> Back to Home </a>
+        </div>
+    </div>
+
+</main>
+</body>
+</html>

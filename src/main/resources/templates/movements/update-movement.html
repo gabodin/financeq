@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title> New Movement </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div class="container">
+    <header>
+        <div class="title">
+            <h1>  Update Movement  </h1>
+        </div>
+    </header>
+    <hr/>
+    <form th:action="@{/movements/update}" th:object="${movement}" method="POST" class="movement-forms">
+        <input type="hidden" name="id" th:field="*{movementId}">
+        <div class="mb-3 form-input">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" placeholder="Title" th:field="*{title}" />
+        </div>
+        <div class="mb-3 form-input">
+            <label for="amount" class="form-label">Amount</label>
+            <input type="number" class="form-control" id="amount" placeholder="Amount" th:field="*{amount}" />
+        </div>
+        <div class="mb-3 form-input">
+            <label for="movementDate" class="form-label">Date</label>
+            <input type="date" class="form-control" id="movementDate" placeholder="Date" th:field="*{movementDate}" />
+        </div>
+        <div class="mb-3 form-input">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" placeholder="Description" th:field="*{description}"></textarea>
+        </div>
+        <div class="mb-3 form-input">
+            <label for="category">Movement Category</label>
+            <select name="category" id="category" class="form-control">
+                <option value="">Choose the movement category</option>
+                <option th:each="category : ${categories}" th:value="${category}" th:text="${category}" th:selected="${movement.category==category}"></option>
+            </select>
+        </div>
+        <div class="mb-3 form-input">
+            <label for="status">Movement Type</label>
+            <select name="status" id="status" class="form-control">
+                <option value="">Choose the movement type</option>
+                <option th:each="status : ${statuses}" th:value="${status}" th:text="${status}" th:selected="${movement.status==status}"></option>
+            </select>
+        </div>
+        <div class="mb-3 form-input">
+            <input type="checkbox" name="essential" id="essential" th:field="*{isEssential}">
+            <label for="essential" class="form-label">Essential movement</label>
+        </div>
+
+        <div class="btn-forms">
+            <button id="btn-add" type="submit" class="btn btn-primary btn-form ">Submit</button>
+        </div>
+    </form>
+    <hr/>
+    <div class="return-link">
+        <a th:href="@{/movements}" > Return to movements list </a>
+    </div>
+</div>
+</body>
+</html>

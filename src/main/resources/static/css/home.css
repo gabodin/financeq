@@ -1,0 +1,62 @@
+* {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+}
+
+header {
+    font-weight: bold;
+}
+
+header h1 {
+    font-weight: bold;
+    margin-top: 3rem;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+}
+
+ul li {
+    list-style: none;
+}
+
+.links-list a {
+    font-size: 1.5rem;
+}
+
+#header-home {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logout {
+    align-items: center;
+    width: 20%;
+}
+
+.btn-home {
+    width: 20%;
+    align-items: center;
+}
+
+.btn-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.credentials {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.credentials-info {
+    font-weight: bold;
+}
