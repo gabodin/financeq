@@ -5,6 +5,7 @@ import com.sb.financeq.entities.MovementDTO;
 import com.sb.financeq.entities.User;
 import com.sb.financeq.entities.enums.Category;
 import com.sb.financeq.entities.enums.Status;
+import com.sb.financeq.entities.exceptions.UserNotAuthorizedException;
 import com.sb.financeq.services.MovementService;
 import com.sb.financeq.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,9 @@ public class MovementController {
 
     @GetMapping("")
     public String listMovementsDto(Model model) {
-        List<MovementDTO> movementsDto = movementService.listDto(1);
+        User user = userService.getCurrentUser();
+
+        List<MovementDTO> movementsDto = movementService.getMovementsDtoByUser(user.getUserId());
 
         model.addAttribute("movements", movementsDto);
 
@@ -55,34 +58,44 @@ public class MovementController {
     @PostMapping("/add")
     public String addMovement(@ModelAttribute Movement movement, Model model) {
         System.out.println(movement);
+        User user = userService.getCurrentUser();
 
-        Optional<User> user = userService.findById(1);
-
-        user.ifPresent(movement::setUserId);
+        movement.setUserId(user);
         movement.setCreatedAt(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")));
 
         movementService.save(movement);
 
-        return "redirect:/movements/list";
+        return "redirect:/movements";
     }
 
     @GetMapping("/delete/{movementId}")
     public String deleteMovement(@PathVariable Integer movementId, Model model) {
+        Movement movement = movementService.findById(movementId);
+
+        User user = userService.getCurrentUser();
+
+        if (!movement.getUserId().getUserId().equals(user.getUserId())) {
+            throw new UserNotAuthorizedException("You are not allowed to delete this movement");
+        }
 
         movementService.deleteById(movementId);
 
-        return "redirect:/movements/list";
+        return "redirect:/movements";
     }
 
     @GetMapping("/update/{id}")
     public String updateMovement(@PathVariable Integer id, Model model) {
-        Optional<Movement> movement = movementService.findById(id);
+        Movement movement = movementService.findById(id);
         Category[] categories = Category.values();
         Status[] statuses = Status.values();
 
-        movement.ifPresentOrElse(movement1 -> model.addAttribute("movement", movement1), () -> {
-            throw new RuntimeException("Movement not found");
-        });
+        User user = userService.getCurrentUser();
+
+        if (!movement.getUserId().getUserId().equals(user.getUserId())) {
+            throw new UserNotAuthorizedException("You are not allowed to update this movement");
+        }
+
+        model.addAttribute("movement", movement);
 
         model.addAttribute("categories", categories);
         model.addAttribute("statuses", statuses);
@@ -93,11 +106,27 @@ public class MovementController {
     @PostMapping("/update")
     public String updateMovement(@ModelAttribute Movement movement, Model model) {
         movement.setCreatedAt(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")));
-        Optional<User> user = userService.findById(1);
+        User user = userService.getCurrentUser();
 
-        user.ifPresent(movement::setUserId);
+        movement.setUserId(user);
         movementService.save(movement);
 
         return "redirect:/movements/list";
+    }
+
+    @GetMapping("/detail/{id}")
+    public String viewMovement(@PathVariable Integer id, Model model) {
+        Movement movement = movementService.findById(id);
+        User user = userService.getCurrentUser();
+
+        if (!movement.getUserId().getUserId().equals(user.getUserId())) {
+            throw new UserNotAuthorizedException("You are not allowed to access this movement");
+        }
+
+        model.addAttribute("movement", movement);
+
+
+        return "movements/movement-detail";
+
     }
 }

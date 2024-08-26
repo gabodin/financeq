@@ -4,13 +4,13 @@ import com.sb.financeq.entities.Movement;
 import com.sb.financeq.entities.MovementDTO;
 import com.sb.financeq.entities.enums.Category;
 import com.sb.financeq.entities.enums.Status;
+import com.sb.financeq.entities.exceptions.MovementNotFoundException;
 import com.sb.financeq.repositories.MovementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -30,8 +30,10 @@ public class MovementService {
         return movementRepository.findAll();
     }
 
-    public Optional<Movement> findById(Integer id) {
-        return movementRepository.findById(id);
+    public Movement findById(Integer id) {
+
+        return movementRepository.findById(id)
+                .orElseThrow(() -> new MovementNotFoundException("Movement not found with id: " + id));
     }
 
     public Movement save(Movement movement) {
@@ -42,8 +44,8 @@ public class MovementService {
         movementRepository.deleteById(id);
     }
 
-    public List<MovementDTO> listDto(Integer id) {
-        List<Object[]> results = movementRepository.getUserMovementDto(id);
+    public List<MovementDTO> getMovementsDtoByUser(Integer userId) {
+        List<Object[]> results = movementRepository.getUserMovementDto(userId);
         return results.stream()
                 .map(result -> new MovementDTO(
                         (Integer) result[0],

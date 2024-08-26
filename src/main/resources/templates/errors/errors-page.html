@@ -25,22 +25,32 @@
                     </li>
                 </ul>
             </div>
+            <button class="myBtn-light me-5" onclick="window.location.href='/logout'">Logout</button>
         </div>
     </nav>
-    <div class="container">
+    <div class="container" th:object="${errorResponse}">
         <header>
             <div class="title">
-                <h1>
-                    Welcome to Financeq
+                <h1 th:text="${errorType}">
+
                 </h1>
             </div>
         </header>
         <hr/>
-
-        <div class="add-movement">
-            <a th:href="@{/movements}" class="btn btn-primary"> Movements </a>
-        </div>
-
+        <main class="movement-form">
+            <div class="form-input">
+                <p> Error: </p>
+                <h3 th:text="*{status}"></h3>
+            </div>
+            <div class="form-input">
+                <p> Description: </p>
+                <h4 th:text="*{message}"></h4>
+            </div>
+            <div class="form-input">
+                <p> Date: </p>
+                <h4 th:text="*{timestamp}"></h4>
+            </div>
+        </main>
     </div>
 </main>
 <footer class="footer mt-auto py-3 bg-dark">
