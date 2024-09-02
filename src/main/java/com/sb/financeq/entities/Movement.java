@@ -21,7 +21,7 @@ public class Movement {
 
     private String title;
 
-    private BigDecimal amount;
+    private float amount;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate movementDate;
@@ -45,7 +45,7 @@ public class Movement {
 
     public Movement() {}
 
-    public Movement(Integer movementId, String title, BigDecimal amount, LocalDate movementDate, ZonedDateTime createdAt, String description, Integer category, Integer status, boolean isEssential, User userId) {
+    public Movement(Integer movementId, String title, float amount, LocalDate movementDate, ZonedDateTime createdAt, String description, Integer category, Integer status, boolean isEssential, User userId) {
         this.movementId = movementId;
         this.title = title;
         this.amount = amount;
@@ -90,11 +90,11 @@ public class Movement {
         this.movementDate = movementDate;
     }
 
-    public BigDecimal getAmount() {
+    public float getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(float amount) {
         this.amount = amount;
     }
 

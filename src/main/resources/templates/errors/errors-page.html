@@ -25,7 +25,15 @@
                     </li>
                 </ul>
             </div>
-            <button class="myBtn-light me-5" onclick="window.location.href='/logout'">Logout</button>
+            <label th:if="${user.firstName != null && user.lastName != null}"
+                   th:text="${user.firstName+' '+user.lastName}"
+                   class="nav-item nav-link px-2 me-3" style="color: white">
+            </label>
+
+            <label th:unless="${user.firstName != null && user.lastName != null}" th:text="${user.email}"
+                   class="nav-item nav-link px-2 me-3" style="color: white"></label>
+            <button class="btn btn-sm btn-light" onclick="window.location.href='/logout'">Logout</button>
+
         </div>
     </nav>
     <div class="container" th:object="${errorResponse}">

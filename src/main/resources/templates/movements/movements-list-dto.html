@@ -25,6 +25,15 @@
                     </li>
                 </ul>
             </div>
+            <label th:if="${user.firstName != null && user.lastName != null}"
+                   th:text="${user.firstName+' '+user.lastName}"
+                   class="nav-item nav-link px-2 me-3" style="color: white">
+            </label>
+
+            <label th:unless="${user.firstName != null && user.lastName != null}" th:text="${user.email}"
+                   class="nav-item nav-link px-2 me-3" style="color: white"></label>
+            <button class="btn btn-sm btn-light" onclick="window.location.href='/logout'">Logout</button>
+
         </div>
     </nav>
     <div class="container">
@@ -59,7 +68,7 @@
                 <td th:text="${move.amount}" />
                 <td th:text="${move.category}" />
                 <td th:text="${move.status}" />
-                <td th:text="${#dates.format(move.movementDate, 'dd/MM/yyyy')}" />
+                <td th:text="${move.movementDate()}" />
                 <td>
                     <a th:href="@{/movements/detail/{movementId}(movementId=${move.movementId})}" class="btn btn-sm btn-info">
                         Detail

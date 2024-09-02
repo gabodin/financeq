@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface MovementRepository extends JpaRepository<Movement, Integer> {
 
-    @Query(value = " SELECT m.movement_id, m.title, m.amount, m.category, m.status, m.movement_date"
+    @Query(value = " SELECT m.movement_id, m.title, m.amount, m.category, m.status, DATE_FORMAT(m.movement_date, '%d/%m/%Y') as movement_date"
             + " FROM movement m"
             + " where m.user_id = :user", nativeQuery = true)
     List<Object[]> getUserMovementDto(@Param("user") Integer user);

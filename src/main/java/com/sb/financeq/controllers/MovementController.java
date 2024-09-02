@@ -38,12 +38,14 @@ public class MovementController {
         List<MovementDTO> movementsDto = movementService.getMovementsDtoByUser(user.getUserId());
 
         model.addAttribute("movements", movementsDto);
+        model.addAttribute("user", user);
 
         return "movements/movements-list-dto";
     }
 
     @GetMapping("/new")
     public String newMovement(Model model) {
+        User user = userService.getCurrentUser();
         Movement movement = new Movement();
         Category[] categories = Category.values();
         Status[] statuses = Status.values();
@@ -51,6 +53,8 @@ public class MovementController {
         model.addAttribute("movement", movement);
         model.addAttribute("categories", categories);
         model.addAttribute("statuses", statuses);
+        model.addAttribute("user", user);
+
 
         return "movements/new-movement";
     }
@@ -99,6 +103,7 @@ public class MovementController {
 
         model.addAttribute("categories", categories);
         model.addAttribute("statuses", statuses);
+        model.addAttribute("user", user);
 
         return "movements/update-movement";
     }
@@ -124,6 +129,7 @@ public class MovementController {
         }
 
         model.addAttribute("movement", movement);
+        model.addAttribute("user", user);
 
 
         return "movements/movement-detail";

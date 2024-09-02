@@ -50,10 +50,10 @@ public class MovementService {
                 .map(result -> new MovementDTO(
                         (Integer) result[0],
                         (String) result[1],
-                        (BigDecimal) result[2],
+                        (float) result[2],
                         Category.valueOf((int) result[3]),
                         Status.valueOf((int) result[4]),
-                        ((Timestamp) result[5]).toLocalDateTime().toLocalDate().format(formatter)))
+                        (String) result[5]))
                 .collect(Collectors.toList());
     }
 }
