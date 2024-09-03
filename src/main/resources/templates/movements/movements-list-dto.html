@@ -68,7 +68,7 @@
                 <td th:text="${move.amount}" />
                 <td th:text="${move.category}" />
                 <td th:text="${move.status}" />
-                <td th:text="${move.movementDate()}" />
+                <td th:text="${move.movementDate}" />
                 <td>
                     <a th:href="@{/movements/detail/{movementId}(movementId=${move.movementId})}" class="btn btn-sm btn-info">
                         Detail
@@ -84,6 +84,15 @@
             </tbody>
 
         </table>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="/movements/all/?page=0">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="/movements/all/?page=0">1</a></li>
+                <li class="page-item"><a class="page-link" href="/movements/all/?page=1">2</a></li>
+                <li class="page-item"><a class="page-link" href="/movements/all/?page=2">3</a></li>
+                <li class="page-item"><a class="page-link" href="/movements/all/?page=1">Next</a></li>
+            </ul>
+        </nav>
         <div class="btn-home">
             <a th:href="@{/}" class="btn btn-dark"> Back to Dashboard </a>
         </div>

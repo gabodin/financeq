@@ -9,6 +9,9 @@ import com.sb.financeq.entities.exceptions.UserNotAuthorizedException;
 import com.sb.financeq.services.MovementService;
 import com.sb.financeq.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -134,5 +137,23 @@ public class MovementController {
 
         return "movements/movement-detail";
 
+    }
+
+    @GetMapping("/all/")
+    public String allMovements(Model model,
+                               @RequestParam(defaultValue = "0") int page,
+                               @RequestParam(defaultValue = "5") int size,
+                               @RequestParam(defaultValue = "movementDate") String sortBy,
+                               @RequestParam(defaultValue = "DESC") String order) {
+        User user = userService.getCurrentUser();
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<Movement> movementPage = movementService.listMovements(user, pageable, sortBy, order);
+
+        model.addAttribute("movements", movementPage.getContent());
+        model.addAttribute("user", user);
+
+        return "movements/movements-list-dto";
     }
 }
