@@ -41,7 +41,7 @@ public class WebSecurityConfig {
     @Bean
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http.authenticationProvider(authenticationProvider());
+               http.authenticationProvider(authenticationProvider());
 
         http.authorizeHttpRequests(auth -> {
             auth.requestMatchers(publicUrl).permitAll();
